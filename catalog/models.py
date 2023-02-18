@@ -24,7 +24,7 @@ class Book(models.Model):
     """Model representing a book (but not a specific copy of a book)."""
     title = models.CharField(max_length=200)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
-
+    
     # Foreign Key used because book can only have one author, but authors can have multiple books
     # Author as a string rather than object because it hasn't been declared yet in the file.
     summary = models.TextField(max_length=1000, help_text='Enter a brief description of the book')
@@ -34,6 +34,9 @@ class Book(models.Model):
     # Genre class has already been defined so we can specify the object above.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        ordering = ['title']
 
     def __str__(self):
         """String for representing the Model object."""
@@ -46,6 +49,9 @@ class Book(models.Model):
     def display_genre(self):
         """Create a string for the Genre. This is required to display genre in Admin."""
         return ', '.join(genre.name for genre in self.genre.all()[:3])
+    
+    # def get(self):
+    #     return reverse('author-detail', args=[str(self.author)])
 
     display_genre.short_description = 'Genre'
     
@@ -97,4 +103,5 @@ class Author(models.Model):
 
     def __str__(self):
         """String for representing the Model object."""
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.first_name}, {self.last_name}'
+    

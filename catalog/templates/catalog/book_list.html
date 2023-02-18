@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{{ some_data }}
+  <h1>Book List</h1>
+  {% comment "default is object_list" %}{% endcomment %}
+  {% comment %} {% if my_book_list %}
+  <ul>
+    {% for book in my_book_list %} 
+      <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %} {% endcomment %}
+  <ul>
+    {% for book in my_book_list %} {% comment "default is object_list" %}{% endcomment %}
+      <li>
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})
+      </li>
+      {% empty %}
+        <p>There are no books in the library.</p>
+      
+    {% endfor %}
+  </ul>
+{% endblock %}
